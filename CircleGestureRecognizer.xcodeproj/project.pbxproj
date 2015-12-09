@@ -14,6 +14,8 @@
 		35D796F31A88E4E500BF7F12 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D796F21A88E4E500BF7F12 /* Images.xcassets */; };
 		35D796F61A88E4E500BF7F12 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35D796F41A88E4E500BF7F12 /* LaunchScreen.xib */; };
 		35D797021A88E4E500BF7F12 /* CircleGestureRecognizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D797011A88E4E500BF7F12 /* CircleGestureRecognizerTests.m */; };
+		35D7970D1A88E5BF00BF7F12 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D7970C1A88E5BF00BF7F12 /* CircleView.m */; };
+		35D797101A88E78800BF7F12 /* CircleGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D7970F1A88E78800BF7F12 /* CircleGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		35D796FB1A88E4E500BF7F12 /* CircleGestureRecognizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CircleGestureRecognizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D797001A88E4E500BF7F12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D797011A88E4E500BF7F12 /* CircleGestureRecognizerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircleGestureRecognizerTests.m; sourceTree = "<group>"; };
+		35D7970B1A88E5BF00BF7F12 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		35D7970C1A88E5BF00BF7F12 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		35D7970E1A88E78800BF7F12 /* CircleGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleGestureRecognizer.h; sourceTree = "<group>"; };
+		35D7970F1A88E78800BF7F12 /* CircleGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleGestureRecognizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +91,10 @@
 				35D796EA1A88E4E500BF7F12 /* AppDelegate.m */,
 				35D796EC1A88E4E500BF7F12 /* ViewController.h */,
 				35D796ED1A88E4E500BF7F12 /* ViewController.m */,
+				35D7970B1A88E5BF00BF7F12 /* CircleView.h */,
+				35D7970C1A88E5BF00BF7F12 /* CircleView.m */,
+				35D7970E1A88E78800BF7F12 /* CircleGestureRecognizer.h */,
+				35D7970F1A88E78800BF7F12 /* CircleGestureRecognizer.m */,
 				35D796EF1A88E4E500BF7F12 /* Main.storyboard */,
 				35D796F21A88E4E500BF7F12 /* Images.xcassets */,
 				35D796F41A88E4E500BF7F12 /* LaunchScreen.xib */,
@@ -219,7 +229,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35D7970D1A88E5BF00BF7F12 /* CircleView.m in Sources */,
 				35D796EE1A88E4E500BF7F12 /* ViewController.m in Sources */,
+				35D797101A88E78800BF7F12 /* CircleGestureRecognizer.m in Sources */,
 				35D796EB1A88E4E500BF7F12 /* AppDelegate.m in Sources */,
 				35D796E81A88E4E500BF7F12 /* main.m in Sources */,
 			);
@@ -346,6 +358,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CircleGestureRecognizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -356,6 +369,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CircleGestureRecognizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -414,6 +428,7 @@
 				35D797071A88E4E500BF7F12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35D797081A88E4E500BF7F12 /* Build configuration list for PBXNativeTarget "CircleGestureRecognizerTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +437,7 @@
 				35D7970A1A88E4E500BF7F12 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
