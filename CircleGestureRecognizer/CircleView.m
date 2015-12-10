@@ -25,21 +25,21 @@
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     if ( [points count] > 1 ) {
-        // Тонкие зеленые окружности мин. и макс. допустимого радиуса
+        // Green circles of min and max allowed radius
         CGContextSetLineWidth(context, 1.0);
         CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
-        // Минимального
+        // Min
         CGFloat radiusMin = radius - radius*self.circleGestureRecognizer.radiusVariancePercent;
         CGRect rect = CGRectMake(center.x - radiusMin, center.y - radiusMin, radiusMin*2.0, radiusMin*2.0);
         CGContextAddEllipseInRect(context, rect);
         CGContextDrawPath(context, kCGPathStroke);
-        // Максимального
+        // Max
         CGFloat radiusMax = radius + radius*self.circleGestureRecognizer.radiusVariancePercent;
         rect = CGRectMake(center.x - radiusMax, center.y - radiusMax, radiusMax*2.0, radiusMax*2.0);
         CGContextAddEllipseInRect(context, rect);
         CGContextDrawPath(context, kCGPathStroke);
 
-        // Соединим красными отрезками все точки
+        // Connect all points with red segments
         CGContextSetLineWidth(context, 2.0);
         CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
         CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
@@ -49,7 +49,7 @@
             CGPoint nextPoint = CGPointFromString(onePointString);
             if ( first ) {
                 first = NO;
-                // Первая точка будет жирной
+                // First point will be bold
                 CGRect dotRect = CGRectMake(nextPoint.x - 3.0, nextPoint.y - 3.0, 6.0, 6.0);
                 CGContextAddEllipseInRect(context, dotRect);
                 CGContextDrawPath(context, kCGPathFillStroke);
@@ -60,10 +60,10 @@
         }
         CGContextStrokePath(context);
         if ( radius > 0 ) {
-            // Нарисуем зеленым цветом два радиуса, вверх и вправо
+            // Two radiuses, to top and upright
             CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
             CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
-            // В центре зеленая точка
+            // Green point in the center
             CGRect dotRect = CGRectMake(center.x - 3.0, center.y - 3.0, 6.0, 6.0);
             CGContextAddEllipseInRect(context, dotRect);
             CGContextDrawPath(context, kCGPathFillStroke);
@@ -73,10 +73,10 @@
             CGContextStrokePath(context);
         }
         if (!CGPointEqualToPoint(wrongPoint, CGPointZero)) {
-            // Выделим жирной желтой точкой неправильную точку
+            // Wrong point will be yellow bold
             CGContextSetStrokeColorWithColor(context, [UIColor yellowColor].CGColor);
             CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
-            // В центре зеленая точка
+            // Green dot in the center
             CGRect dotRect = CGRectMake(wrongPoint.x - 3.0, wrongPoint.y - 3.0, 6.0, 6.0);
             CGContextAddEllipseInRect(context, dotRect);
             CGContextDrawPath(context, kCGPathFillStroke);
@@ -92,25 +92,25 @@
     self.label.textColor = [UIColor redColor];
     switch ( gr.error ) {
         case ErrorNotClosed:
-            self.label.text = @"Неудача: закончили сильно далеко от начала";
+            self.label.text = @"Fail: finished too far from start";
             break;
         case ErrorOverlapTolerance:
             wrongPoint = gr.wrongPoint;
             center = gr.center;
             radius = gr.radius;
-            self.label.text = @"Неудача: отдельные точки сильно далеко друг от друга";
+            self.label.text = @"Fail: separate point too far from each other";
             break;
         case ErrorRadiusVarianceTolerance:
             wrongPoint = gr.wrongPoint;
             center = gr.center;
             radius = gr.radius;
-            self.label.text = @"Неудача: отклонение радиуса выше нормы";
+            self.label.text = @"Fail: redius deviats too much";
             break;
         case ErrorTooShort:
-            self.label.text = [NSString stringWithFormat:@"Неудача: мало точек (%ld)", (unsigned long)gr.points.count];
+            self.label.text = [NSString stringWithFormat:@"Fail: мало точек (%ld)", (unsigned long)gr.points.count];
             break;
         case ErrorTooSlow:
-            self.label.text = @"Неудача: сильно долго рисовали";
+            self.label.text = @"Fail: have been drawing too long";
             break;
         case ErrorNone:
             self.label.text = @"";
@@ -128,7 +128,7 @@
     switch (gr.state) {
         case UIGestureRecognizerStateEnded:
             label.textColor = [UIColor whiteColor];
-            label.text = [NSString stringWithFormat:@"Похоже на окружность: центр %@, радиус %f", NSStringFromCGPoint(gr.center), gr.radius];
+            label.text = [NSString stringWithFormat:@"Success: center %@, radius %f", NSStringFromCGPoint(gr.center), gr.radius];
             center = gr.center;
             radius = gr.radius;
             break;
