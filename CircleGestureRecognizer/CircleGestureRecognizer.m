@@ -163,7 +163,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
     _center = CGPointMake((rightMost.x + leftMost.x) / 2.0, (topMost.y + bottomMost.y) / 2.0);
 
     // Let radius be distance from starting point to center
-    _radius = fabsf(distanceBetweenPoints(_center, firstTouch_));
+    _radius = fabs(distanceBetweenPoints(_center, firstTouch_));
 
     // Проверяем что порядок точек похож на окружность и расстояние от текущей точки до центра
     // отклоняется от радиуса в допустимых пределах
@@ -180,7 +180,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
     index = 0;
     for ( NSString *pointString in points_ ) {
         CGPoint point = CGPointFromString(pointString);
-        CGFloat distanceFromRadius = fabsf(distanceBetweenPoints(_center, point));
+        CGFloat distanceFromRadius = fabs(distanceBetweenPoints(_center, point));
         if ( distanceFromRadius < minRadius || distanceFromRadius > maxRadius ) {
             _wrongPoint = point;
             [self failWithError:ErrorRadiusVarianceTolerance];
