@@ -1,6 +1,6 @@
 #import "CircleGestureRecognizer.h"
 
-#pragma mark - Вспомагательные функции
+#pragma mark - Helpers
 #define degreesToRadian(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (180.0 * x / M_PI)
 
@@ -36,7 +36,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
 
 - (id) init {
     if ( (self = [super init]) ) {
-        //_circleClosureAngleVariance = 45.0;  // не использ
+        //_circleClosureAngleVariance = 45.0;  // not used
         _circleClosureDistanceVariance = 50.0;
         _maximumCircleTime = 3.0;
         _radiusVariancePercent = 25.0;
@@ -53,7 +53,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
 }
 
 - (void) failWithError:(CircleGestureError)error {
-    NSLog(@"Неудача: это не окружность, код %d", error);
+    NSLog(@"Fail: not a circle, err.code %d", error);
     _error = error;
     self.state = UIGestureRecognizerStateFailed;
     if ( [self.delegate conformsToProtocol:@protocol(CircleGestureFailureDelegate)] ) {
@@ -95,19 +95,19 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
     CGPoint endPoint = [[touches anyObject] locationInView:self.view];
     [points_ addObject:NSStringFromCGPoint(endPoint)];
 
-    // Конец сильно далеко от начала
+    // End too far from start
     if ( distanceBetweenPoints(firstTouch_, endPoint) > _circleClosureDistanceVariance ) {
         [self failWithError:ErrorNotClosed];
         return;
     }
 
-    // Сильно долго рисовали
+    // Drawing overtimed
     if ( [NSDate timeIntervalSinceReferenceDate] - firstTouchTime_ > _maximumCircleTime ) {
         [self failWithError:ErrorTooSlow];
         return;
     }
 
-    // Мало промежуточных точек
+    // Not enough number of point
     if ( [points_ count] < _minimumNumPoints ) {
         [self failWithError:ErrorTooShort];
         return;
@@ -122,7 +122,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
     CGPoint bottomMost = firstTouch_;
     NSUInteger bottomMostIndex = NSUIntegerMax;
 
-    // Найдем граничные точки прямоугольника в который вписана окружность
+    // Extreem points of rectangle around circle
     int index = 0;
     for ( NSString *pointString in points_ ) {
         CGPoint onePoint = CGPointFromString(pointString);
@@ -145,7 +145,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
         index++;
     }
 
-    // Если startPoint одна из экстремальных точек
+    // If startPoint one of extreem points
     if ( rightMostIndex == NSUIntegerMax ) {
         rightMost = firstTouch_;
     }
@@ -159,19 +159,21 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
         bottomMost = firstTouch_;
     }
 
-    // Цетр окружности в центре описывающего прямоугольника
+    // Circle center is center of rectangle
     _center = CGPointMake((rightMost.x + leftMost.x) / 2.0, (topMost.y + bottomMost.y) / 2.0);
 
-    // За радиус окружности принимаем длину отрезка между первой точкой и центром
+    // Let radius be distance from starting point to center
     _radius = fabsf(distanceBetweenPoints(_center, firstTouch_));
 
     // Проверяем что порядок точек похож на окружность и расстояние от текущей точки до центра
     // отклоняется от радиуса в допустимых пределах
 
-    CGFloat currentAngle = 0.0; // угол между отрезками (центр - начальная точка) и (центр - текучая точка)
-    BOOL    hasSwitched = NO; // YES если через угол изменил знак (проскочили через 180%)
+    // Let's check that order of points is like in circle and destance from current point to center
+    // deviates as allowed.
 
-    // Убедимся что когда мы перебираем точки по порядку, угол между теку
+    CGFloat currentAngle = 0.0; // Angle between (center, start point) and (center, current point)
+    BOOL    hasSwitched = NO; // YES if angle changed sign (came accross 180%)
+
     CGFloat minRadius = _radius - (_radius * _radiusVariancePercent);
     CGFloat maxRadius = _radius + (_radius * _radiusVariancePercent);
 
@@ -185,7 +187,7 @@ CGFloat angleBetweenLines(CGPoint line1Start, CGPoint line1End, CGPoint line2Sta
             return;
         }
 
-        // Это тот же угол между отрезками (центр - начальная точка) и (центр - текучая точка)
+        // Same angle between (center, start point) and (center, current point)
         CGFloat pointAngle = angleBetweenLines(firstTouch_, _center, point, _center);
 
         if ( (pointAngle > currentAngle && hasSwitched) && (index < points_.count - _overlapTolerance) ) {
